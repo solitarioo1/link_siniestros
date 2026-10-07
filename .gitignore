@@ -4,3 +4,7 @@
 *.pem
 credentials.json
 secrets.json
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

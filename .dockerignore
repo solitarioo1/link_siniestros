@@ -1,0 +1,7 @@
+cloudflare-geo/
+.git/
+.gitignore
+CLAUDE.md
+README.md
+Dockerfile
+.dockerignore
