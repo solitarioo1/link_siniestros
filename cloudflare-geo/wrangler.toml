@@ -1,0 +1,6 @@
+name = "fotos-gps-geo-lookup"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Sin secretos: este Worker solo hace point-in-polygon contra las capas en
+# data/ (ver README.md de esta carpeta). No requiere credenciales.

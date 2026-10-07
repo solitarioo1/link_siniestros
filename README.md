@@ -1,0 +1,3 @@
+# Fotos Georreferenciadas — Evaluar Siniestro (web)
+
+Versión web de la app "Fotos GPS" de La Positiva Seguros: evaluación de siniestro agrícola por link (consentimiento → 9 fotos georreferenciadas con watermark → envío por correo), sin necesidad de instalar una app. Son archivos estáticos (`index.html` + `css/` + `js/`, sin build) listos para subir tal cual al servidor en `evaluar-siniestro.intismart.com`; el envío de correo y el cruce de coordenadas con departamento/provincia/distrito corren en dos Workers de Cloudflare aparte (`cloudflare-geo/`). Detalles técnicos y decisiones de diseño en `CLAUDE.md`.

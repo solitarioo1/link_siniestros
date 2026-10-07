@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluar Siniestro</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<div class="wrap">
+
+<!-- PANTALLA 0: BIENVENIDA -->
+<section id="s0">
+  <span class="tag">SEGURO AGRARIO</span>
+  <h1>Evaluar Siniestro</h1>
+  <div class="sub">La Positiva Seguros</div>
+  <div class="card" style="margin-top:14px">
+    <div class="kv">Código de enlace: <b id="linkCode">—</b></div>
+  </div>
+  <div class="card">
+    <div class="kv">Para evaluar el siniestro necesitamos activar tu <b>cámara</b> y tu <b>ubicación</b>. Vas a tomar un mínimo de <b>3 fotos</b> (hasta 9).</div>
+  </div>
+  <button class="p" id="btnContinuar">Continuar</button>
+</section>
+
+<!-- PANTALLA 1: CONSENTIMIENTO -->
+<section id="s1" class="hide">
+  <h2>Autorización</h2>
+  <div class="card">
+    <label class="chk">
+      <input type="checkbox" id="chkUbicacion">
+      <span><b>Ubicación.</b> Autorizo el uso de mi ubicación para georreferenciar las fotos del siniestro.</span>
+    </label>
+    <label class="chk">
+      <input type="checkbox" id="chkFotos">
+      <span><b>Fotos.</b> Autorizo la toma y el envío de fotografías del cultivo/daño para la evaluación del siniestro.</span>
+    </label>
+    <label class="chk">
+      <input type="checkbox" id="chkCamara">
+      <span><b>Cámara.</b> Autorizo la activación de la cámara de este dispositivo durante la evaluación.</span>
+    </label>
+    <div class="note">Texto de prueba — no es el texto legal definitivo.</div>
+    <button class="p" id="btnAceptar" disabled>Aceptar y continuar</button>
+  </div>
+</section>
+
+<!-- PANTALLA 2: GRILLA (EVALUAR SINIESTRO) -->
+<section id="s2" class="hide">
+  <h2>Evaluar Siniestro</h2>
+  <div class="sub">Toca cada casilla para tomar la foto indicada. Mínimo 3 fotos.</div>
+  <div class="grid9" id="grid9"></div>
+  <button class="p" id="btnEnviar" disabled>ENVIAR (<span id="cntFotos">0</span>/9)</button>
+</section>
+
+<!-- PANTALLA 3: CAPTURA DE UNA FOTO -->
+<section id="s3" class="hide">
+  <div class="card">
+    <div class="kv">
+      GPS: <span class="badge" id="gpsBadge" style="background:var(--mut)">sin señal</span>
+      <span class="sub" id="gpsAge"></span><br>
+      <span id="ll">—</span> · <b id="acc">—</b>
+    </div>
+    <div class="note" id="gpsMsg"></div>
+  </div>
+
+  <div class="card" id="boxCam">
+    <div id="camBox">
+      <video id="vid" autoplay playsinline muted></video>
+      <div class="row">
+        <button class="p" id="btnShot" disabled>Capturar</button>
+        <button class="o" id="btnCancelarCaptura">Cancelar</button>
+      </div>
+    </div>
+    <div id="prevBox" class="hide">
+      <canvas class="prev" id="prev"></canvas>
+      <div class="row">
+        <button class="o" id="btnRetake">Repetir</button>
+        <button class="p" id="btnUsarFoto">Usar esta foto</button>
+      </div>
+    </div>
+    <div class="note" id="camMsg"></div>
+  </div>
+</section>
+
+<!-- PANTALLA 4: ENVIANDO / RESULTADO -->
+<section id="s4" class="hide">
+  <div class="card centro" id="boxEnviando">
+    <div class="spinner"></div>
+    <div class="kv">Enviando reporte...</div>
+  </div>
+  <div class="card centro hide" id="boxExito">
+    <div class="check">✓</div>
+    <div class="kv"><b>Enviado</b></div>
+  </div>
+  <div class="card hide" id="boxError">
+    <div class="kv">No se pudo enviar el reporte.</div>
+    <button class="p" id="btnReintentar">Reintentar envío</button>
+    <button class="o" id="btnVolverGrilla">Volver</button>
+  </div>
+</section>
+
+<!-- MODAL: CONFIRMAR ENVIO -->
+<div id="modalConfirmar" class="overlay hide">
+  <div class="modalCard">
+    <div class="kv">¿Estás seguro que deseas enviar el reporte?</div>
+    <div class="row">
+      <button class="o" id="btnNoEnviar">No</button>
+      <button class="p" id="btnSiEnviar">Sí, enviar</button>
+    </div>
+  </div>
+</div>
+
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

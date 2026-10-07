@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.wrangler/
+
+# Generado con Python/geopandas para validar scripts/validar_lookup.mjs -
+# ver README.md para regenerarlo. Pesado (~800KB) y no se necesita en
+# runtime, solo al reprocesar las capas.
+scripts/fixture_validacion.json
