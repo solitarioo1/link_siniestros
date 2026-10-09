@@ -7,16 +7,6 @@ import { enviarReporteSiniestro } from './envio.js';
 
 const $ = (id) => document.getElementById(id);
 
-// --- Código de enlace (viene de ?c=XXXX o se genera uno de prueba) ---
-function rnd(n) {
-  const alfabeto = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  const bytes = new Uint8Array(n);
-  crypto.getRandomValues(bytes);
-  return [...bytes].map((b) => alfabeto[b % alfabeto.length]).join('');
-}
-const linkCode = new URLSearchParams(location.search).get('c') || `T-${rnd(8)}`;
-$('linkCode').textContent = linkCode;
-
 // --- Estado ---
 const casillas = new Array(CATEGORIAS.length).fill(null);
 let indiceActual = null;
