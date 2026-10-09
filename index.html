@@ -10,11 +10,12 @@
 <div class="wrap">
 
 <!-- PANTALLA 0: BIENVENIDA -->
-<section id="s0">
+<section id="s0" class="centrada">
   <span class="tag">SEGURO AGRARIO</span>
   <h1>Evaluar Siniestro</h1>
   <div class="sub">La Positiva Seguros</div>
-  <div class="card" style="margin-top:14px">
+  <img class="ilustracion" src="assets/images/foto_para_inicio.png" alt="">
+  <div class="card">
     <div class="kv">Código de enlace: <b id="linkCode">—</b></div>
   </div>
   <div class="card">
@@ -24,8 +25,8 @@
 </section>
 
 <!-- PANTALLA 1: CONSENTIMIENTO -->
-<section id="s1" class="hide">
-  <h2>Autorización</h2>
+<section id="s1" class="hide centrada">
+  <h2 class="centrado">Autorización</h2>
   <div class="card">
     <label class="chk">
       <input type="checkbox" id="chkUbicacion">
@@ -39,15 +40,14 @@
       <input type="checkbox" id="chkCamara">
       <span><b>Cámara.</b> Autorizo la activación de la cámara de este dispositivo durante la evaluación.</span>
     </label>
-    <div class="note">Texto de prueba — no es el texto legal definitivo.</div>
     <button class="p" id="btnAceptar" disabled>Aceptar y continuar</button>
   </div>
 </section>
 
 <!-- PANTALLA 2: GRILLA (EVALUAR SINIESTRO) -->
 <section id="s2" class="hide">
-  <h2>Evaluar Siniestro</h2>
-  <div class="sub">Toca cada casilla para tomar la foto indicada. Mínimo 3 fotos.</div>
+  <h2 class="centrado">Evaluar Siniestro</h2>
+  <div class="sub centrado">Toca cada casilla para tomar la foto indicada. <span class="destacado">Mínimo 3 fotos.</span></div>
   <div class="grid9" id="grid9"></div>
   <button class="p" id="btnEnviar" disabled>ENVIAR (<span id="cntFotos">0</span>/9)</button>
 </section>
@@ -83,7 +83,7 @@
 </section>
 
 <!-- PANTALLA 4: ENVIANDO / RESULTADO -->
-<section id="s4" class="hide">
+<section id="s4" class="hide centrada">
   <div class="card centro" id="boxEnviando">
     <div class="spinner"></div>
     <div class="kv">Enviando reporte...</div>

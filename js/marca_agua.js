@@ -1,9 +1,16 @@
-// Equivalente web de watermark_overlay.dart: bloque de texto en la esquina
-// inferior derecha, tamaño y posición relativos al canvas (nunca pixeles
-// absolutos - reglas de arquitectura de CLAUDE.md #2/#3). Mismo contenido
-// que la app: coordenadas (6 decimales) + distrito/provincia/departamento,
-// sector estadístico, fecha/hora. Sin logo (no se incluyó en esta primera
-// version) y sin nota (la web no pide nota por foto, a propósito).
+// Equivalente web de watermark_overlay.dart: logo + bloque de texto en la
+// esquina inferior derecha, tamaño y posición relativos al canvas (nunca
+// pixeles absolutos - reglas de arquitectura de CLAUDE.md #2/#3). Mismo
+// contenido que la app: coordenadas (6 decimales) + distrito/provincia/
+// departamento, sector estadístico, fecha/hora. Sin nota (la web no pide
+// nota por foto, a propósito).
+const logoListo = new Promise((resolve, reject) => {
+  const img = new Image();
+  img.onload = () => resolve(img);
+  img.onerror = () => reject(new Error('No se pudo cargar el logo'));
+  img.src = 'assets/images/logo_positiva.png';
+});
+
 function formatoFechaHora(fecha) {
   const pad = (n) => String(n).padStart(2, '0');
   return `${pad(fecha.getDate())}/${pad(fecha.getMonth() + 1)}/${fecha.getFullYear()} ${pad(fecha.getHours())}:${pad(fecha.getMinutes())}`;
@@ -15,7 +22,7 @@ function lineaUbicacion(geo, lat, lon) {
   return partes.length ? `${coordenadas}\n${partes.join(', ')}` : coordenadas;
 }
 
-export function quemarMarcaDeAgua(canvas, { lat, lon, geo, fechaHora }) {
+export async function quemarMarcaDeAgua(canvas, { lat, lon, geo, fechaHora }) {
   const ctx = canvas.getContext('2d');
   const ancho = canvas.width;
   const alto = canvas.height;
@@ -46,15 +53,31 @@ export function quemarMarcaDeAgua(canvas, { lat, lon, geo, fechaHora }) {
       return ctx.measureText(l.texto).width;
     }),
   );
+
+  let logo = null;
+  try {
+    logo = await logoListo;
+  } catch (e) {
+    console.error('Logo no disponible para el watermark', e);
+  }
+  const altoTextoBloque = renglones.reduce((s, l) => s + alturaRenglon(l), 0) - 4;
+  const altoCaja = Math.max(altoTextoBloque, logo ? tamanoBase * 2.6 : 0) + relleno * 2;
+  const altoLogo = logo ? altoCaja - relleno * 2 : 0;
+  const anchoLogo = logo ? (altoLogo * logo.width) / logo.height : 0;
+  const espacioLogo = logo ? anchoLogo + relleno : 0;
+
   const margenDerecho = ancho * 0.06;
   const margenInferior = alto * 0.03;
-  const anchoCaja = anchoTexto + relleno * 2;
-  const altoCaja = renglones.reduce((s, l) => s + alturaRenglon(l), 0) + relleno * 2 - 4;
+  const anchoCaja = espacioLogo + anchoTexto + relleno * 2;
   const x = ancho - anchoCaja - margenDerecho;
   const y = alto - altoCaja - margenInferior;
 
   ctx.fillStyle = 'rgba(15,15,40,.72)';
   ctx.fillRect(x, y, anchoCaja, altoCaja);
+
+  if (logo) {
+    ctx.drawImage(logo, x + relleno, y + (altoCaja - altoLogo) / 2, anchoLogo, altoLogo);
+  }
 
   let cursorY = y + relleno;
   renglones.forEach((l) => {

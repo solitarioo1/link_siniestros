@@ -12,9 +12,26 @@
 * { box-sizing: border-box; }
 body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--tx); min-height: 100vh; }
 .wrap { max-width: 520px; margin: auto; padding: 16px; }
-h1 { font-size: 22px; color: var(--navy); margin: 8px 0 4px; }
-h2 { font-size: 17px; color: var(--navy); margin: 0 0 8px; }
+h1 { font-size: 28px; color: var(--navy); margin: 8px 0 4px; }
+h2 { font-size: 19px; color: var(--navy); margin: 0 0 8px; }
 .sub { color: var(--mut); font-size: 13px; }
+.centrado { text-align: center; }
+/* Pantallas cortas (bienvenida, autorización, resultado) centradas en medio
+   del teléfono en vez de pegadas arriba - pedido explícito del usuario. Las
+   pantallas largas (grilla, cámara) se quedan arriba y hacen scroll normal. */
+.centrada {
+  min-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+/* Solo títulos/subtítulos centrados - el texto de las casillas de
+   autorización y el contenido de las cards se queda alineado a la
+   izquierda (centrarlo también se veía mal con texto de varias líneas). */
+.centrada > h1, .centrada > .sub, .centrada > h2, .centrada > .tag { text-align: center; }
+.destacado { color: var(--naranja); font-weight: 700; }
+.ilustracion { width: 70%; max-width: 260px; margin: 10px auto; display: block; }
 .card { background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 .card.centro { text-align: center; }
 button { font: inherit; border: 0; border-radius: 99px; padding: 13px 16px; font-weight: 700; cursor: pointer; width: 100%; }
@@ -23,7 +40,13 @@ button { font: inherit; border: 0; border-radius: 99px; padding: 13px 16px; font
 button:disabled { opacity: .4; cursor: not-allowed; }
 .row { display: flex; gap: 8px; margin-top: 10px; }
 .row > button { flex: 1; }
-video, canvas.prev { width: 100%; border-radius: 12px; background: #000; display: block; }
+/* Visor en vivo: caja fija 3:4 (antes se veía con el ratio crudo del
+   sensor, descuadrado) - solo encuadre visual, antes de capturar.
+   canvas.prev SÍ es la foto real ya recortada 9:16/16:9 por
+   congelarCuadro() en camara.js - se muestra con su proporción real, sin
+   forzar otra distinta, para no mentirle al usuario sobre qué se envía. */
+video { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; background: #000; display: block; }
+canvas.prev { width: 100%; height: auto; border-radius: 12px; background: #000; display: block; }
 .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; color: #fff; }
 .kv { font-size: 13px; line-height: 1.7; }
 .hide { display: none !important; }
@@ -41,12 +64,17 @@ label.chk input { width: 22px; height: 22px; margin-top: 1px; flex-shrink: 0; }
   border: 2px solid var(--menta);
   background: #fff;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   cursor: pointer;
 }
 .casilla.obligatoria { border-color: var(--naranja); }
 .casilla img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.casilla .icono-casilla { width: 26px; height: 26px; color: var(--menta); }
+.casilla.obligatoria .icono-casilla { color: var(--naranja); }
+.casilla .icono-casilla svg { width: 100%; height: 100%; }
 .casilla .etiqueta { font-size: 11px; text-align: center; color: var(--navy); padding: 4px; }
 .casilla .check {
   position: absolute; top: 4px; right: 4px;
@@ -70,8 +98,8 @@ label.chk input { width: 22px; height: 22px; margin-top: 1px; flex-shrink: 0; }
 }
 @keyframes girar { to { transform: rotate(360deg); } }
 .check {
-  width: 64px; height: 64px; margin: 0 auto 10px;
+  width: 92px; height: 92px; margin: 0 auto 14px;
   border-radius: 99px; background: var(--menta); color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-size: 32px; font-weight: 700;
+  font-size: 46px; font-weight: 700;
 }

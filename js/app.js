@@ -79,7 +79,7 @@ function renderGrid() {
     if (foto) {
       div.innerHTML = `<img src="${foto.url}"><div class="check">✓</div>`;
     } else {
-      div.innerHTML = `<div class="etiqueta">${cat.grupo}</div>`;
+      div.innerHTML = `<div class="icono-casilla">${cat.icono}</div><div class="etiqueta">${cat.grupo}</div>`;
     }
     div.onclick = () => abrirCaptura(i);
     grid.appendChild(div);
@@ -147,20 +147,24 @@ $('btnShot').onclick = async () => {
 
   cerrarCamara(stream);
   stream = null;
-  $('camBox').classList.add('hide');
-  $('prevBox').classList.remove('hide');
 
   capturaPendiente = { canvas: base, lat, lon, geo };
-  pintarPreview();
+  // Esperar a que el watermark (async: carga el logo) termine de quemarse
+  // ANTES de mostrar el preview - si no, "Usar esta foto" podría capturar
+  // el canvas a medio quemar (o sin watermark) por la carrera entre el
+  // usuario tocando el botón y el dibujo async todavía en curso.
+  await pintarPreview();
+  $('camBox').classList.add('hide');
+  $('prevBox').classList.remove('hide');
 };
 
-function pintarPreview() {
+async function pintarPreview() {
   const { canvas, lat, lon, geo } = capturaPendiente;
   const prev = $('prev');
   prev.width = canvas.width;
   prev.height = canvas.height;
   prev.getContext('2d').drawImage(canvas, 0, 0);
-  quemarMarcaDeAgua(prev, { lat, lon, geo, fechaHora: new Date() });
+  await quemarMarcaDeAgua(prev, { lat, lon, geo, fechaHora: new Date() });
 }
 
 $('btnRetake').onclick = () => {
